@@ -181,7 +181,7 @@ begin
                    s:=GenSpaces(4)+Wp.Name+'Var:=[Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
                  if (j > 0) and (j< wp.PointList.Count) then
                    s:=s+',Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
-                 if j = wp.PointList.Count then
+                 if j = wp.PointList.Count-1 then
                    s:=s+'];';
                end;
             st.Add(s);
@@ -224,7 +224,7 @@ begin
                      s:=GenSpaces(4)+wp.Name+'Var:=[Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
                   if (j > 0) and (j< wp.PointList.Count) then
                      s:=s+',Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
-                  if j = wp.PointList.Count then
+                  if j = wp.PointList.Count -1 then
                      s:=s+']);';
                  end;
             St.Add(s);
@@ -287,11 +287,11 @@ begin
                    s:=GenSpaces(4)+Wp.Name+'Var:=[Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
                  if (j > 0) and (j< wp.PointList.Count) then
                    s:=s+',Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
-                 if j = wp.PointList.Count then
+                 if j = wp.PointList.Count -1 then
                    s:=s+'];';
                end;
-            st.Add(s);
-           st.Add(GenSpaces(4)+'for i=0 to High('+Wp.Name+'Var'+') do');
+           st.Add(s);
+           st.Add(GenSpaces(4)+'for i:=0 to High('+Wp.Name+'Var'+') do');
            st.Add(GenSpaces(5)+'repeat');
            st.Add(GenSpaces(6)+'wait(RandomRange(500,800));');
            st.Add(GenSpaces(5)+'until (SPS_BlindWalk('+Wp.Name+'Var[i]));');
@@ -304,6 +304,9 @@ begin
         //   st.Add(GenSpaces(6)+'end;');
         //   st.Add(GenSpaces(5)+'WriteLn(status + '+#39+'#Time Running:'+#39+' +TimeRunning);');
            st.Add(GenSpaces(4)+'end;');
+           st.Add('');
+           st.Add('');
+           st.Add('');
           end;
          st.Add(genspaces(1)+'procedure SetupWalker;');
          st.Add(GenSpaces(2)+'begin');
