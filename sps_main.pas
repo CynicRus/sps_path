@@ -18,6 +18,7 @@ type
     Label2: TLabel;
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
+    MenuItem12: TMenuItem;
     odlg: TOpenDialog;
     JumpMenu: TPopupMenu;
     pBoxMenu: TPopupMenu;
@@ -58,6 +59,7 @@ type
     procedure MapRenderPaint(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
+    procedure MenuItem12Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
@@ -162,13 +164,15 @@ procedure TSps_Editor.MenuItem5Click(Sender: TObject);
 begin
   CodeType:=0;
   MenuItem6.Checked:=false;
+  MenuItem12.Checked:=false;
   MenuItem5.Checked:=true;
 end;
 
 procedure TSps_Editor.MenuItem6Click(Sender: TObject);
 begin
-  CodeType:=1;
+  CodeType:=2;
   MenuItem6.Checked:=true;
+  MenuItem12.Checked:=false;
   MenuItem5.Checked:=false;
 end;
 
@@ -386,6 +390,14 @@ begin
   sps_path.Delete(CurrIndex);
   if not (sps_path.Count > 0) then begin wpList.Clear; PathBuffer.Canvas.Draw(0,0,bground); end;
   ToComboBox;
+end;
+
+procedure TSps_Editor.MenuItem12Click(Sender: TObject);
+begin
+    CodeType:=1;
+  MenuItem6.Checked:=false;
+  MenuItem12.Checked:=true;
+  MenuItem5.Checked:=false;
 end;
 
 

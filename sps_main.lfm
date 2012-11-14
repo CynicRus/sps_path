@@ -189,12 +189,16 @@ object Sps_Editor: TSps_Editor
     object MenuItem4: TMenuItem
       Caption = 'Code generation'
       object MenuItem5: TMenuItem
-        Caption = 'Progressive'
+        Caption = 'WalkPath script'
         OnClick = MenuItem5Click
       end
       object MenuItem6: TMenuItem
-        Caption = 'Standart'
+        Caption = 'BlindWalk script'
         OnClick = MenuItem6Click
+      end
+      object MenuItem12: TMenuItem
+        Caption = 'Only variables'
+        OnClick = MenuItem12Click
       end
     end
     object MenuItem7: TMenuItem
