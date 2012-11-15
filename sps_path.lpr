@@ -7,8 +7,9 @@ uses
   cthreads,
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
-  Forms, sps_main, sps_types, sps_utils, sps_base, code_frm, bgrabitmappack,
-  imagesforlazarus
+  Forms, sps_main, sps_types, sps_utils, sps_base, code_frm, bitmaps,
+  mufasatypes, colour_conv, bgrabitmappack, imagesforlazarus,
+  lazmouseandkeyinput
   { you can add units after this };
 
 {$R *.res}

@@ -51,11 +51,13 @@ type
   public
     MapFile: string;
     MapType: integer;
-    //MapImg: TBitmap;
+    MapImg: string;
 
     function AddItem: TWaypoint;
 
     constructor Create;
+
+   { function FindByName(aFileName: string): TWaypoint; }
 
     property Items[Index: Integer]: TWaypoint read GetItems; default;
  end;
@@ -78,6 +80,18 @@ constructor TPath.Create;
 begin
   inherited Create(TWaypoint);
 end;
+{
+function TPath.FindByName(aFileName: string): TWaypoint;
+var I: Integer;
+begin
+ Result := nil;
+  for I := 0 to Count - 1 do
+    if AnsiCompareText(Trim(Items[i].Name),Trim(aFileName))=0 then
+    begin
+      Result := Items[i];
+      Break;
+    end;
+end;  }
 
 { TWaypoint }
 

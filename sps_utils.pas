@@ -5,7 +5,16 @@ unit sps_utils;
 interface
 
 uses
-  Classes, SysUtils,Math,sps_types;
+  Classes, SysUtils,Math,MufasaTypes,sps_types;
+type
+  TSPSWaypoint = record
+  Name: string;
+  PointList: TPointArray;
+  end;
+  TSPSPath = record
+    Map: string;
+    MapPaths: array of TSPSWaypoint;
+  end;
 //
 function Eq(aValue1, aValue2: string): boolean;
 
@@ -20,6 +29,9 @@ function GenSpaces(cnt: integer): string;
 function GetFileName(fname : String) : String;
 
 function GetAreaCodes(const pth: TPath): string;
+
+
+
 implementation
 
 function Eq(aValue1, aValue2: string): boolean;

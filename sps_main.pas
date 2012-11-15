@@ -7,7 +7,7 @@ interface
 uses
   Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
   StdCtrls, ComCtrls, ExtCtrls, BGRABitmap,BGRABitmapTypes,LCLIntf,LCLType,
-  sps_types,sps_base, sps_utils;
+  sps_types,sps_base, sps_utils,Bitmaps;
 
 type
 
@@ -25,11 +25,14 @@ type
     sdlg: TSaveDialog;
     DrawTimer: TTimer;
     ToolButton1: TToolButton;
+    ToolButton10: TToolButton;
+    ToolButton11: TToolButton;
     ToolButton2: TToolButton;
     ToolButton3: TToolButton;
     ToolButton4: TToolButton;
     ToolButton5: TToolButton;
     ToolButton6: TToolButton;
+    ToolButton7: TToolButton;
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
     wpList: TListView;
@@ -66,6 +69,8 @@ type
     procedure MenuItem6Click(Sender: TObject);
     procedure pBoxChange(Sender: TObject);
     procedure pBoxSelect(Sender: TObject);
+    procedure ToolButton10Click(Sender: TObject);
+    procedure ToolButton11Click(Sender: TObject);
     procedure ToolButton3Click(Sender: TObject);
     procedure ToolButton4Click(Sender: TObject);
     procedure ToolButton5Click(Sender: TObject);
@@ -188,6 +193,96 @@ begin
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
   CurrIndex:=Pbox.ItemIndex;
+end;
+
+procedure TSps_Editor.ToolButton10Click(Sender: TObject);
+var
+  bmp: TMufasaBitmap;
+begin
+  if not assigned(sps_path) then exit;
+  if not (sps_path.Count > 0) then exit;
+  if (sps_path.MapType = 0) then exit;
+  Bmp:=TMufasaBitmap.Create;
+  Bmp.LoadFromFile(sps_path.MapFile);
+  sps_path.MapImg:=bmp.ToString;
+  sdlg.Filter:='SPS map files|*.spm';
+  if sdlg.Execute then sps_path.SaveToFile(sdlg.FileName);
+  Bmp.Free;
+end;
+function SPS_FillPath(aFileName: String;var Path: TSPSPath):boolean;
+var
+  Storage:TWPContainer;
+  i,j: integer;
+  Len: integer;
+begin
+  result:=false;
+ // if not eq(ExtractFormat(aFileName),'spm') then exit;
+  try
+  Storage:=TWPContainer.Create;
+  Storage.LoadFromFile(aFileName);
+  SetLength(path.MapPaths,Storage.Count);
+  Path.Map:=Storage.MapImg;
+  for i:=0 to Storage.Count - 1 do
+   begin
+  //   mDebug('First stage: OK;');
+     Path.MapPaths[i].Name:=Storage.Items[i].Name;
+     Len:= Storage.Items[i].PointList.Count;
+     SetLength(Path.MapPaths[i].PointList,len);
+   //  Path.MapPaths[i].Name:=Storage.Items[i].Name;
+      for j:=0 to Storage.Items[i].PointList.Count - 1 do
+        begin
+          Path.MapPaths[i].PointList[j].x:=Storage.Items[i].PointList[j].x;
+          Path.MapPaths[i].PointList[j].y:=Storage.Items[i].PointList[j].y;
+         // mDebug('Second stage: OK;');
+        end;
+   end;
+
+  except
+   // Raise Exceprion
+  end;
+  result:=true;
+end;
+
+procedure TSps_Editor.ToolButton11Click(Sender: TObject);
+var
+  bmp:TBGRABitmap;
+  mbmp: TMufasaBitmap;
+  Bitmaps: TMBitmaps;
+  sps: TSPSPath;
+  s: string;
+  i: integer;
+begin
+  drawtimer.Enabled:=false;
+  bmp:= TBGRABitmap.Create;
+  mbmp:= TMufasaBitmap.Create;
+  sps_path:=TWPContainer.Create;
+  pbox.Items.Clear;
+  wplist.Items.Clear;
+  currindex:=0;
+  CurrSubIndex:=0;
+  odlg.Filter:='SPS map files|*.spm';
+  if odlg.Execute then s:=odlg.FileName else exit;
+   sps_path.LoadFromFile(s);
+   Bitmaps:=TMBitmaps.Create(self);
+   Bitmaps.CreateBMPFromString(500,500,sps_path.MapImg);
+   MBmp:=Bitmaps.GetBMP(0);
+   bmp.Bitmap.Handle:=mbmp.ToTBitmap.Handle;
+   SPS_FillPath(s,sps);
+  if not (sps_path.MapType = 1) then
+   JumpMenu.Free;
+  Bground.Handle:=bmp.Bitmap.Handle;
+  PathBuffer.Width:=Bground.Width;
+  PathBuffer.Height:=Bground.Height;
+  Pathbuffer.Canvas.Draw(0,0,Bground);
+  MapRender.Width:=Bground.Width;
+  MapRender.Height:=Bground.Height;
+  MapRender.Canvas.Draw(0,0,PathBuffer);
+  ToComboBox;
+  DrawPath;
+  DrawTimer.Enabled:=true;
+ // Bitmaps.Free;
+ // mbmp.Free;
+ // bmp.Free;
 end;
 
 procedure TSps_Editor.ToolButton3Click(Sender: TObject);
@@ -321,7 +416,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.0 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.1 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.DrawTimerTimer(Sender: TObject);

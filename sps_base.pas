@@ -48,6 +48,7 @@ procedure TWPContainer.LoadFromFile(aFileName: string);
    begin
      MapFile:=aParentNode.Attributes.GetNamedItem('mapfile').NodeValue;
      MapType:=StrToInt(VarToStr(aParentNode.Attributes.GetNamedItem('maptype').NodeValue));
+     MapImg:=VarToStr(aParentNode.Attributes.GetNamedItem('mapimg').NodeValue);
      for I := 0 to aParentNode.ChildNodes.Count - 1 do
      begin
        Waypoint:=AddItem;
@@ -81,6 +82,7 @@ begin
   vRoot:=oXmlDocument.CreateElement('spsmap');
    TDOMElement(vRoot).SetAttribute('maptype',inttostr(MapType));
    TDOMElement(vRoot).SetAttribute('mapfile',MapFile);
+   TDOMElement(vRoot).SetAttribute('mapimg',MapImg);
   oXmlDocument.AppendChild(vroot);
   vRoot:=oXMLDocument.DocumentElement;
   for i:=0 to count - 1 do
