@@ -8,6 +8,7 @@ object Sps_Editor: TSps_Editor
   ClientWidth = 880
   Menu = MainMenu1
   OnCreate = FormCreate
+  OnDestroy = FormDestroy
   LCLVersion = '1.0.2.0'
   object ScrollBox1: TScrollBox
     Left = 248
