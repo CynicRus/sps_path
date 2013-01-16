@@ -5,9 +5,9 @@ unit sps_main;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, Forms, Controls, Graphics, Dialogs, Menus,
-  StdCtrls, ComCtrls, ExtCtrls, BGRABitmap,BGRABitmapTypes,BGRACanvas,LCLIntf,LCLType,
-  sps_types,sps_base, sps_utils,Bitmaps;
+  Classes, SysUtils, FileUtil, GR32,GR32_Image,GR32_Resamplers,GR32_Backends_Generic, Forms, Controls, Graphics, Dialogs,
+  Menus, StdCtrls, ComCtrls, ExtCtrls, BGRABitmap, BGRABitmapTypes, BGRACanvas,
+  LCLIntf, LCLType, sps_types, sps_base, sps_utils, Bitmaps;
 
 type
 
@@ -21,6 +21,7 @@ type
     MenuItem12: TMenuItem;
     odlg: TOpenDialog;
     JumpMenu: TPopupMenu;
+    MapRender: TPaintBox;
     pBoxMenu: TPopupMenu;
     sdlg: TSaveDialog;
     DrawTimer: TTimer;
@@ -36,7 +37,6 @@ type
     ToolButton8: TToolButton;
     ToolButton9: TToolButton;
     wpList: TListView;
-    MapRender: TPaintBox;
     pBox: TComboBox;
     GroupBox1: TGroupBox;
     Label1: TLabel;
@@ -100,10 +100,11 @@ const
   MaxPath = 16;
 var
   Sps_Editor: TSps_Editor;
+  PathBufferMap,BgroundMap: TMemoryBackend;
   //path colors
   co:array [0..15] of Tcolor;
   //Drawing routine
-  Bground,PathBuffer,MiniMap: TBGRABitmap;//for drawing routines
+  Bground,PathBuffer,MiniMap: TBitmap32;//for drawing routines
   //Jump Town menu
   JumpMenu: TPopupMenu;
   AreaPoint: array[0..18] of TPoint;
@@ -123,21 +124,34 @@ uses Code_Frm;
 
 { TSps_Editor }
 
+procedure DrawSrcToDst(Src, Dst: TBitmap32);
+var
+  R: TKernelResampler;
+begin
+  R := TKernelResampler.Create(Src);
+  R.Kernel := TLanczosKernel.Create;
+  Dst.Draw(Dst.BoundsRect, Src.BoundsRect, Src);
+end;
+
+
+
 procedure TSps_Editor.MenuItem2Click(Sender: TObject);
+var
+  bmp: TBGRABitmap;
 begin
   sps_path:=TWPContainer.Create;
   odlg.Filter:='RS map files|*.png';
-  Bground:= TBGRABitmap.Create;
+  Bmp:= TBGRABitmap.Create;
   if odlg.Execute then
    sps_path.MapFile:=odlg.FileName;
-   Bground.LoadFromFile(sps_path.MapFile);
-  if (Bground.Width<500) or (Bground.Height<500) then
+   Bmp.LoadFromFile(sps_path.MapFile);
+  if (Bmp.Width<500) or (Bmp.Height<500) then
    begin
     ShowMessage('Not correct rs map file');
     exit;
    end;
   sps_path.MapType:=0;
-  if (Bground.Width=7271) and (Bground.Height=6630) then
+  if (Bmp.Width=7271) and (Bmp.Height=6630) then
    begin
    sps_path.MapType:=1;
    JumpMenu:=TPopupMenu.Create(Self);
@@ -145,15 +159,17 @@ begin
    end;
   if not (sps_path.MapType = 1) then
    JumpMenu.Free;
- // Bground.Handle:=bmp.Bitmap.Handle;
-  //PathBuffer.Width:=Bground.Width;
- // PathBuffer.Height:=Bground.Height;
-  PathBuffer.SetSize(Bground.Width,Bground.Height);
-  PathBuffer.CanvasBGRA.Draw(0,0,Bground);
-  MapRender.Width:=Bground.Width;
-  MapRender.Height:=Bground.Height;
-  //MapRender.Canvas.Draw(0,0,PathBuffer);
-  PathBuffer.Draw(MapRender.Canvas,0,0,true);
+   Bground.Assign(bmp.Bitmap);
+  // Bground.BitmapHandle:=Bmp.Bitmap.Handle;
+ {  PathBuffer.Width:=Bground.Width;
+   PathBuffer.Height:=Bground.Height;}
+   PathBuffer.SetSize(Bground.Width,Bground.Height);
+   //Pathbuffer.Canvas.Draw(0,0,Bground);
+  // Bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
+   DrawSrcToDst(Bground,PathBuffer);
+   MapRender.Width:=Bground.Width;
+   MapRender.Height:=Bground.Height;
+  PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
   PBox.Items.Clear;
   wpList.Items.Clear;
   //bmp.Bitmap.SaveToFile('C:/Test.bmp');
@@ -272,18 +288,20 @@ begin
    Bitmaps:=TMBitmaps.Create(self);
    Bitmaps.CreateBMPFromString(500,500,sps_path.MapImg);
    MBmp:=Bitmaps.GetBMP(0);
-   //bground.Bitmap.Handle:=mbmp.ToTBitmap.Handle;
+  // bground.BitmapHandle:=mbmp.ToTBitmap.Handle;
    bground.Assign(mbmp.ToTBitmap);
    SPS_FillPath(s,sps);
   if not (sps_path.MapType = 1) then
    JumpMenu.Free;
   //Bground.Assign(bmp);
-  PathBuffer.SetSize(Bground.Width,Bground.Height);
-  PathBuffer.CanvasBGRA.Draw(0,0,Bground);
+   PathBuffer.SetSize(Bground.Width,Bground.Height);
+ // Pathbuffer.Canvas.Draw(0,0,Bground);
+ // Bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
+  DrawSrcToDst(Bground,PathBuffer);
   MapRender.Width:=Bground.Width;
   MapRender.Height:=Bground.Height;
-  //MapRender.Canvas.Draw(0,0,PathBuffer);
-  PathBuffer.Draw(MapRender.Canvas,0,0,true);
+ // MapRender.Canvas.Draw(0,0,PathBuffer);
+  PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
   ToComboBox;
   DrawPath;
   DrawTimer.Enabled:=true;
@@ -318,7 +336,7 @@ procedure TSps_Editor.ToolButton6Click(Sender: TObject);
 //var
  // bmp:TBGRABitmap;
 begin
-  drawtimer.Enabled:=false;
+  {drawtimer.Enabled:=false;
  // bmp:= TBGRABitmap.Create;
   sps_path:=TWPContainer.Create;
   pbox.Items.Clear;
@@ -349,7 +367,7 @@ begin
   ToComboBox;
   DrawPath;
   DrawTimer.Enabled:=true;
-  //bmp.Free;
+  //bmp.Free; }
 end;
 
 procedure TSps_Editor.ToolButton9Click(Sender: TObject);
@@ -395,26 +413,28 @@ end;
 
 procedure TSps_Editor.SetPen(aColor: TColor);
 var
-  MyPen: TBGRAPen;
-  MyBrush: TBGRABrush;
+  MyPen: TPen;
+  MyBrush: TBrush;
 begin
-  MyPen:=TBGRAPen.Create;
-  MyBrush:=TBGRABrush.Create;
+  MyPen:=TPen.Create;
+  MyBrush:=TBrush.Create;
   MyPen.Style:=psDash;
   MyPen.Width:=1;
   MyPen.Color:=aColor;
   MyBrush.Color:=aColor;
-  PathBuffer.CanvasBGRA.Pen:=MyPen;
-  PathBuffer.CanvasBGRA.Brush:=MyBrush;
+  PathBuffer.Canvas.Pen:=MyPen;
+  PathBuffer.Canvas.Brush:=MyBrush;
   MyPen.Free;
   MyBrush.Free;
 end;
 
 procedure TSps_Editor.FormCreate(Sender: TObject);
 begin
-  Bground:=TBGRABitmap.Create;
-  PathBuffer:=TBGRABitmap.Create;
-  MiniMap:=TBGRABitmap.Create;
+  Bground:=TBitmap32.Create;
+  PathBuffer:=TBitmap32.Create;
+  //MiniMap:=TBitmap32.Create;
+  //PathBufferMap:=TMemoryBackend.Create(PathBuffer);
+ // BgroundMap:=TMemoryBackend.Create(Bground);
   FillColor;
   CodeType:=0;
   MenuItem6.Checked:=false;
@@ -422,7 +442,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.4 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.1 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -431,7 +451,8 @@ begin
   Bground.Free;
   PathBuffer.Free;
   Minimap.Free;
-
+ // Delete(paramstr(0)+'Bground.a');
+ // Delete(paramstr(0)+'PathBuffer.a');
 end;
 
 procedure TSps_Editor.DrawTimerTimer(Sender: TObject);
@@ -474,7 +495,7 @@ end;
 procedure TSps_Editor.MapRenderPaint(Sender: TObject);
 begin
   //MapRender.Canvas.Draw(0,0,PathBuffer);
-  PathBuffer.Draw(MapRender.Canvas,0,0);
+  PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
 end;
 
 procedure TSps_Editor.MenuItem10Click(Sender: TObject);
@@ -499,13 +520,13 @@ begin
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
   sps_path.Delete(CurrIndex);
-  if not (sps_path.Count > 0) then begin wpList.Clear; PathBuffer.CanvasBGRA.Draw(0,0,bground); end;
+  if not (sps_path.Count > 0) then begin wpList.Clear; {PathBuffer.Canvas.Draw(0,0,bground);}Bground.DrawTo(PathBuffer.Canvas.Handle,0,0); end;
   ToComboBox;
 end;
 
 procedure TSps_Editor.MenuItem12Click(Sender: TObject);
 begin
-    CodeType:=1;
+  CodeType:=1;
   MenuItem6.Checked:=false;
   MenuItem12.Checked:=true;
   MenuItem5.Checked:=false;
@@ -672,7 +693,7 @@ end;
 procedure TSps_Editor.DrawPath();
  procedure DrawSpsPoint(SpsPoint: TSpsPoint);
   begin
-   PathBuffer.CanvasBGRA.Ellipse( SpsPoint.x - 3, SpsPoint.y - 3, SpsPoint.x + 3, SpsPoint.y + 3 );
+   PathBuffer.Canvas.Ellipse( SpsPoint.x - 3, SpsPoint.y - 3, SpsPoint.x + 3, SpsPoint.y + 3 );
   end;
  procedure DrawWaypoint(wp: TWaypoint);
  var
@@ -686,7 +707,7 @@ procedure TSps_Editor.DrawPath();
         TPA[i]:=SpsPointToPoint(wp.PointList[i]);
         DrawSpsPoint(wp.PointList[i]);
       end;
-    PathBuffer.CanvasBGRA.Polyline(TPA);
+    PathBuffer.Canvas.Polyline(TPA);
     TPA:=nil;
   end;
 var
@@ -694,7 +715,9 @@ var
 begin
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
-  PathBuffer.CanvasBGRA.Draw(0,0,bground);
+  //PathBuffer.CanvasBGRA.Draw(0,0,bground);
+  //bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
+  DrawSrcToDst(bground,pathbuffer);
   for i:=0 to sps_path.Count - 1 do
      begin
        DrawWaypoint(sps_path.Items[i]);

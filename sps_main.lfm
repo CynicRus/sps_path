@@ -9,7 +9,7 @@ object Sps_Editor: TSps_Editor
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
-  LCLVersion = '1.0.2.0'
+  LCLVersion = '1.0.4.0'
   object ScrollBox1: TScrollBox
     Left = 248
     Height = 464
@@ -151,6 +151,7 @@ object Sps_Editor: TSps_Editor
       Caption = 'ToolButton5'
       ImageIndex = 3
       OnClick = ToolButton5Click
+      Visible = False
     end
     object ToolButton6: TToolButton
       Left = 103
@@ -158,6 +159,7 @@ object Sps_Editor: TSps_Editor
       Caption = 'ToolButton6'
       ImageIndex = 4
       OnClick = ToolButton6Click
+      Visible = False
     end
     object ToolButton8: TToolButton
       Left = 126
@@ -227,11 +229,11 @@ object Sps_Editor: TSps_Editor
       Caption = 'Waypoints'
       object MenuItem8: TMenuItem
         Caption = 'Save path'
-        OnClick = ToolButton5Click
+        OnClick = ToolButton10Click
       end
       object MenuItem9: TMenuItem
         Caption = 'Load path'
-        OnClick = MenuItem6Click
+        OnClick = ToolButton11Click
       end
     end
   end

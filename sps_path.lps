@@ -4,12 +4,12 @@
     <PathDelim Value="\"/>
     <Version Value="9"/>
     <BuildModes Active="Default"/>
-    <Units Count="41">
+    <Units Count="45">
       <Unit0>
         <Filename Value="sps_path.lpr"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="sps_path"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit0>
       <Unit1>
         <Filename Value="sps_main.pas"/>
@@ -21,9 +21,9 @@
         <IsVisibleTab Value="True"/>
         <EditorIndex Value="0"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="196"/>
-        <CursorPos X="9" Y="208"/>
-        <UsageCount Value="54"/>
+        <TopLine Value="425"/>
+        <CursorPos X="4" Y="437"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
         <LoadedDesigner Value="True"/>
       </Unit1>
@@ -31,41 +31,43 @@
         <Filename Value="sps_types.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="sps_types"/>
-        <EditorIndex Value="6"/>
+        <EditorIndex Value="10"/>
         <WindowIndex Value="0"/>
         <TopLine Value="32"/>
         <CursorPos X="5" Y="53"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit2>
       <Unit3>
         <Filename Value="sps_utils.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="sps_utils"/>
-        <EditorIndex Value="7"/>
+        <EditorIndex Value="11"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="5" Y="9"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit3>
       <Unit4>
         <Filename Value="sps_base.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="sps_base"/>
+        <EditorIndex Value="4"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="3"/>
-        <CursorPos X="35" Y="75"/>
-        <UsageCount Value="54"/>
+        <TopLine Value="190"/>
+        <CursorPos X="38" Y="214"/>
+        <UsageCount Value="60"/>
+        <Loaded Value="True"/>
       </Unit4>
       <Unit5>
         <Filename Value="code_frm.lfm"/>
         <IsPartOfProject Value="True"/>
-        <EditorIndex Value="3"/>
+        <EditorIndex Value="7"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="67" Y="10"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
         <DefaultSyntaxHighlighter Value="LFM"/>
       </Unit5>
@@ -74,110 +76,112 @@
         <IsPartOfProject Value="True"/>
         <HasResources Value="True"/>
         <UnitName Value="code_frm"/>
-        <EditorIndex Value="2"/>
+        <EditorIndex Value="6"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="12"/>
+        <TopLine Value="9"/>
         <CursorPos X="40" Y="12"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit6>
       <Unit7>
         <Filename Value="..\SimbaLocal\Units\MMLCore\bitmaps.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="bitmaps"/>
-        <EditorIndex Value="8"/>
+        <EditorIndex Value="12"/>
         <WindowIndex Value="0"/>
         <TopLine Value="603"/>
         <CursorPos X="1" Y="618"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
         <Loaded Value="True"/>
       </Unit7>
       <Unit8>
         <Filename Value="..\SimbaLocal\Units\Misc\bzip2.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="bzip2"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit8>
       <Unit9>
         <Filename Value="..\SimbaLocal\Units\Misc\bzip2comn.pp"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="bzip2comn"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit9>
       <Unit10>
         <Filename Value="..\SimbaLocal\Units\Misc\bzip2i386.inc"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit10>
       <Unit11>
         <Filename Value="..\SimbaLocal\Units\Misc\bzip2si386.inc"/>
         <IsPartOfProject Value="True"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit11>
       <Unit12>
         <Filename Value="..\SimbaLocal\Units\Misc\bzip2stream.pp"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="bzip2stream"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit12>
       <Unit13>
         <Filename Value="..\SimbaLocal\Units\Misc\DCPCrypt\dcpbase64.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="dcpbase64"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit13>
       <Unit14>
         <Filename Value="..\SimbaLocal\Units\Misc\DCPCrypt\DCPblockciphers.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DCPblockciphers"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit14>
       <Unit15>
         <Filename Value="..\SimbaLocal\Units\Misc\DCPCrypt\DCPconst.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DCPconst"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit15>
       <Unit16>
         <Filename Value="..\SimbaLocal\Units\Misc\DCPCrypt\DCPcrypt2.pas"/>
         <IsPartOfProject Value="True"/>
         <UnitName Value="DCPcrypt2"/>
-        <UsageCount Value="54"/>
+        <UsageCount Value="60"/>
       </Unit16>
       <Unit17>
         <Filename Value="C:\lazarus\lcl\include\rasterimage.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="639"/>
         <CursorPos X="1" Y="654"/>
-        <UsageCount Value="7"/>
+        <UsageCount Value="6"/>
       </Unit17>
       <Unit18>
         <Filename Value="C:\lazarus\lcl\graphics.pp"/>
         <UnitName Value="Graphics"/>
-        <EditorIndex Value="5"/>
+        <EditorIndex Value="9"/>
         <WindowIndex Value="0"/>
         <TopLine Value="557"/>
         <CursorPos X="3" Y="572"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit18>
       <Unit19>
         <Filename Value="C:\lazarus\lcl\controls.pp"/>
         <UnitName Value="Controls"/>
-        <EditorIndex Value="4"/>
+        <EditorIndex Value="8"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1493"/>
         <CursorPos X="15" Y="1505"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit19>
       <Unit20>
         <Filename Value="..\SimbaLocal\Units\MMLCore\mufasabase.pas"/>
         <UnitName Value="mufasabase"/>
+        <EditorIndex Value="5"/>
         <WindowIndex Value="0"/>
-        <TopLine Value="46"/>
-        <CursorPos X="1" Y="1"/>
-        <UsageCount Value="17"/>
+        <TopLine Value="25"/>
+        <CursorPos X="13" Y="43"/>
+        <UsageCount Value="20"/>
+        <Loaded Value="True"/>
       </Unit20>
       <Unit21>
         <Filename Value="..\SimbaLocal\Units\MMLCore\mufasatypes.pas"/>
@@ -185,32 +189,32 @@
         <WindowIndex Value="0"/>
         <TopLine Value="68"/>
         <CursorPos X="3" Y="83"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit21>
       <Unit22>
         <Filename Value="..\SimbaLocal\Units\Misc\CastaliaPasLex.pas"/>
         <UnitName Value="CastaliaPasLex"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit22>
       <Unit23>
         <Filename Value="..\SimbaLocal\Units\Misc\CastaliaPasLexTypes.pas"/>
         <UnitName Value="CastaliaPasLexTypes"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit23>
       <Unit24>
         <Filename Value="..\SimbaLocal\Units\Misc\CastaliaSimplePasPar.pas"/>
         <UnitName Value="CastaliaSimplePasPar"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit24>
       <Unit25>
         <Filename Value="..\SimbaLocal\Units\Misc\CastaliaSimplePasParTypes.pas"/>
         <UnitName Value="CastaliaSimplePasParTypes"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit25>
       <Unit26>
         <Filename Value="..\SimbaLocal\Units\Misc\mPasLex.pas"/>
         <UnitName Value="mPasLex"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit26>
       <Unit27>
         <Filename Value="..\SimbaLocal\Units\Misc\PSDump.pas"/>
@@ -218,45 +222,45 @@
         <WindowIndex Value="0"/>
         <TopLine Value="1"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit27>
       <Unit28>
         <Filename Value="..\SimbaLocal\Units\Misc\ValistusDefines.inc"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit28>
       <Unit29>
         <Filename Value="..\SimbaLocal\Units\Misc\v_autocompleteform.pas"/>
         <UnitName Value="v_autocompleteform"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit29>
       <Unit30>
         <Filename Value="..\SimbaLocal\Units\Misc\v_Constants.pas"/>
         <UnitName Value="v_Constants"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit30>
       <Unit31>
         <Filename Value="..\SimbaLocal\Units\Misc\v_ideCodeInsight.pas"/>
         <UnitName Value="v_ideCodeInsight"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit31>
       <Unit32>
         <Filename Value="..\SimbaLocal\Units\Misc\v_ideCodeParser.pas"/>
         <UnitName Value="v_ideCodeParser"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit32>
       <Unit33>
         <Filename Value="..\SimbaLocal\Units\Misc\v_MiscFunctions.pas"/>
         <UnitName Value="v_MiscFunctions"/>
-        <UsageCount Value="17"/>
+        <UsageCount Value="16"/>
       </Unit33>
       <Unit34>
         <Filename Value="..\SimbaLocal\Units\MMLCore\os_windows.pas"/>
         <UnitName Value="os_windows"/>
-        <EditorIndex Value="9"/>
+        <EditorIndex Value="13"/>
         <WindowIndex Value="0"/>
         <TopLine Value="28"/>
         <CursorPos X="11" Y="36"/>
-        <UsageCount Value="27"/>
+        <UsageCount Value="30"/>
         <Loaded Value="True"/>
       </Unit34>
       <Unit35>
@@ -265,7 +269,7 @@
         <WindowIndex Value="0"/>
         <TopLine Value="3543"/>
         <CursorPos X="1" Y="3558"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit35>
       <Unit36>
         <Filename Value="C:\lazarus\lcl\menus.pp"/>
@@ -273,39 +277,79 @@
         <WindowIndex Value="0"/>
         <TopLine Value="221"/>
         <CursorPos X="15" Y="234"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit36>
       <Unit37>
         <Filename Value="C:\lazarus\lcl\include\menuitem.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="71"/>
         <CursorPos X="1" Y="85"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit37>
       <Unit38>
         <Filename Value="C:\lazarus\lcl\include\control.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="1429"/>
         <CursorPos X="1" Y="1444"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit38>
       <Unit39>
         <Filename Value="C:\lazarus\lcl\include\toolbutton.inc"/>
         <WindowIndex Value="0"/>
         <TopLine Value="125"/>
         <CursorPos X="1" Y="140"/>
-        <UsageCount Value="10"/>
+        <UsageCount Value="9"/>
       </Unit39>
       <Unit40>
         <Filename Value="C:\lazarus\components\bgrabitmaps\bgrabitmap5.9.4\bgracanvas.pas"/>
         <UnitName Value="BGRACanvas"/>
-        <EditorIndex Value="1"/>
         <WindowIndex Value="0"/>
         <TopLine Value="19"/>
         <CursorPos X="1" Y="1"/>
-        <UsageCount Value="10"/>
-        <Loaded Value="True"/>
+        <UsageCount Value="9"/>
       </Unit40>
+      <Unit41>
+        <Filename Value="C:\lazarus\components\Graphics32\GR32.pas"/>
+        <UnitName Value="GR32"/>
+        <EditorIndex Value="1"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="917"/>
+        <CursorPos X="17" Y="930"/>
+        <UsageCount Value="12"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit41>
+      <Unit42>
+        <Filename Value="C:\lazarus\components\Graphics32\GR32_System.pas"/>
+        <UnitName Value="GR32_System"/>
+        <EditorIndex Value="3"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="75"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit42>
+      <Unit43>
+        <Filename Value="C:\lazarus\components\Graphics32\GR32_Backends.pas"/>
+        <UnitName Value="GR32_Backends"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="144"/>
+        <CursorPos X="1" Y="1"/>
+        <UsageCount Value="10"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit43>
+      <Unit44>
+        <Filename Value="C:\lazarus\components\Graphics32\GR32_Backends_Generic.pas"/>
+        <UnitName Value="GR32_Backends_Generic"/>
+        <EditorIndex Value="2"/>
+        <WindowIndex Value="0"/>
+        <TopLine Value="43"/>
+        <CursorPos X="3" Y="57"/>
+        <UsageCount Value="11"/>
+        <Loaded Value="True"/>
+        <DefaultSyntaxHighlighter Value="Delphi"/>
+      </Unit44>
     </Units>
     <General>
       <ActiveWindowIndexAtStart Value="0"/>
@@ -313,123 +357,123 @@
     <JumpHistory Count="30" HistoryIndex="29">
       <Position1>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="659" Column="1" TopLine="638"/>
+        <Caret Line="370" Column="19" TopLine="341"/>
       </Position1>
       <Position2>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="661" Column="1" TopLine="638"/>
+        <Caret Line="8" Column="36" TopLine="4"/>
       </Position2>
       <Position3>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="662" Column="1" TopLine="638"/>
+        <Caret Line="150" Column="2" TopLine="128"/>
       </Position3>
       <Position4>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="663" Column="1" TopLine="639"/>
+        <Caret Line="106" Column="3" TopLine="91"/>
       </Position4>
       <Position5>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="501" Column="1" TopLine="486"/>
+        <Caret Line="508" Column="3" TopLine="475"/>
       </Position5>
       <Position6>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="504" Column="1" TopLine="486"/>
+        <Caret Line="150" Column="30" TopLine="125"/>
       </Position6>
       <Position7>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="298" Column="1" TopLine="283"/>
+        <Caret Line="700" Column="46" TopLine="676"/>
       </Position7>
       <Position8>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="297" Column="1" TopLine="297"/>
+        <Caret Line="155" Column="13" TopLine="141"/>
       </Position8>
       <Position9>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="474" Column="43" TopLine="467"/>
+        <Caret Line="411" Column="21" TopLine="396"/>
       </Position9>
       <Position10>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="499" Column="1" TopLine="484"/>
+        <Caret Line="504" Column="137" TopLine="489"/>
       </Position10>
       <Position11>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="532" Column="50" TopLine="523"/>
+        <Caret Line="710" Column="36" TopLine="533"/>
       </Position11>
       <Position12>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="151" Column="1" TopLine="137"/>
+        <Caret Line="285" Column="18" TopLine="275"/>
       </Position12>
       <Position13>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="286" Column="42" TopLine="106"/>
+        <Caret Line="158" Column="19" TopLine="144"/>
       </Position13>
       <Position14>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="677" Column="26" TopLine="665"/>
+        <Caret Line="302" Column="45" TopLine="376"/>
       </Position14>
       <Position15>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="414" Column="17" TopLine="433"/>
+        <Caret Line="341" Column="3" TopLine="339"/>
       </Position15>
       <Position16>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="396" Column="17" TopLine="388"/>
+        <Caret Line="205" Column="3" TopLine="203"/>
       </Position16>
       <Position17>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="9" Column="71" TopLine="1"/>
+        <Caret Line="537" Column="3" TopLine="535"/>
       </Position17>
       <Position18>
-        <Filename Value="C:\lazarus\components\bgrabitmaps\bgrabitmap5.9.4\bgracanvas.pas"/>
-        <Caret Line="1" Column="1" TopLine="19"/>
+        <Filename Value="sps_main.pas"/>
+        <Caret Line="205" Column="3" TopLine="203"/>
       </Position18>
       <Position19>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="9" Column="71" TopLine="1"/>
+        <Caret Line="197" Column="3" TopLine="195"/>
       </Position19>
       <Position20>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="399" Column="17" TopLine="383"/>
+        <Caret Line="205" Column="3" TopLine="203"/>
       </Position20>
       <Position21>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="490" Column="77" TopLine="496"/>
+        <Caret Line="291" Column="23" TopLine="278"/>
       </Position21>
       <Position22>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="396" Column="9" TopLine="390"/>
+        <Caret Line="229" Column="3" TopLine="276"/>
       </Position22>
       <Position23>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="279" Column="33" TopLine="225"/>
+        <Caret Line="121" Column="26" TopLine="115"/>
       </Position23>
       <Position24>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="150" Column="1" TopLine="129"/>
+        <Caret Line="160" Column="4" TopLine="194"/>
       </Position24>
       <Position25>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="270" Column="33" TopLine="255"/>
+        <Caret Line="103" Column="41" TopLine="98"/>
       </Position25>
       <Position26>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="219" Column="35" TopLine="197"/>
+        <Caret Line="8" Column="86" TopLine="685"/>
       </Position26>
       <Position27>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="202" Column="3" TopLine="198"/>
+        <Caret Line="455" Column="4" TopLine="428"/>
       </Position27>
       <Position28>
-        <Filename Value="sps_types.pas"/>
-        <Caret Line="53" Column="5" TopLine="32"/>
+        <Filename Value="sps_main.pas"/>
+        <Caret Line="436" Column="23" TopLine="422"/>
       </Position28>
       <Position29>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="202" Column="1" TopLine="196"/>
+        <Caret Line="103" Column="36" TopLine="91"/>
       </Position29>
       <Position30>
         <Filename Value="sps_main.pas"/>
-        <Caret Line="204" Column="10" TopLine="196"/>
+        <Caret Line="436" Column="25" TopLine="425"/>
       </Position30>
     </JumpHistory>
   </ProjectSession>
