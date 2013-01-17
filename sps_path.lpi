@@ -30,7 +30,7 @@
         <FormatVersion Value="1"/>
       </local>
     </RunParams>
-    <RequiredPackages Count="6">
+    <RequiredPackages Count="5">
       <Item1>
         <PackageName Value="GR32_L"/>
       </Item1>
@@ -44,13 +44,10 @@
         <PackageName Value="ImagesForLazarus"/>
       </Item4>
       <Item5>
-        <PackageName Value="bgrabitmappack"/>
-      </Item5>
-      <Item6>
         <PackageName Value="LCL"/>
-      </Item6>
+      </Item5>
     </RequiredPackages>
-    <Units Count="17">
+    <Units Count="18">
       <Unit0>
         <Filename Value="sps_path.lpr"/>
         <IsPartOfProject Value="True"/>
@@ -137,6 +134,11 @@
         <IsPartOfProject Value="True"/>
         <UnitName Value="DCPcrypt2"/>
       </Unit16>
+      <Unit17>
+        <Filename Value="C:\lazarus\components\Graphics32\GR32_Png.pas"/>
+        <IsPartOfProject Value="True"/>
+        <UnitName Value="GR32_PNG"/>
+      </Unit17>
     </Units>
   </ProjectOptions>
   <CompilerOptions>
@@ -147,7 +149,7 @@
     </Target>
     <SearchPaths>
       <IncludeFiles Value="$(ProjOutDir);..\SimbaLocal\Units\Misc"/>
-      <OtherUnitFiles Value="..\SimbaLocal\Units\MMLCore;..\SimbaLocal\Units\Misc;..\SimbaLocal\Units\Misc\DCPCrypt"/>
+      <OtherUnitFiles Value="..\SimbaLocal\Units\MMLCore;..\SimbaLocal\Units\Misc;..\SimbaLocal\Units\Misc\DCPCrypt;C:\lazarus\components\Graphics32\"/>
       <UnitOutputDirectory Value="lib\$(TargetCPU)-$(TargetOS)"/>
     </SearchPaths>
     <CodeGeneration>

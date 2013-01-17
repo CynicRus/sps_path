@@ -8,8 +8,8 @@ uses
   {$ENDIF}{$ENDIF}
   Interfaces, // this includes the LCL widgetset
   Forms, sps_main, sps_types, sps_utils, sps_base, code_frm, bitmaps,
-  mufasatypes, colour_conv, bgrabitmappack, imagesforlazarus,
-  lazmouseandkeyinput
+  mufasatypes, colour_conv, imagesforlazarus,
+  lazmouseandkeyinput, GR32_PNG
   { you can add units after this };
 
 {$R *.res}

@@ -5,9 +5,10 @@ unit sps_main;
 interface
 
 uses
-  Classes, SysUtils, FileUtil, GR32,GR32_Image,GR32_Resamplers,GR32_Backends_Generic, Forms, Controls, Graphics, Dialogs,
-  Menus, StdCtrls, ComCtrls, ExtCtrls, BGRABitmap, BGRABitmapTypes, BGRACanvas,
-  LCLIntf, LCLType, sps_types, sps_base, sps_utils, Bitmaps;
+  Classes, SysUtils, FileUtil, GR32, Forms, Controls, Graphics, Dialogs, Menus,
+  StdCtrls, ComCtrls, ExtCtrls, GR32_PNG, GR32_Resamplers,
+  GR32_Backends_Generic, GR32_Image, LCLIntf, LCLType, sps_types, sps_base,
+  sps_utils, Bitmaps;
 
 type
 
@@ -22,6 +23,7 @@ type
     odlg: TOpenDialog;
     JumpMenu: TPopupMenu;
     MapRender: TPaintBox;
+    PaintBox32_1: TPaintBox32;
     pBoxMenu: TPopupMenu;
     sdlg: TSaveDialog;
     DrawTimer: TTimer;
@@ -100,11 +102,10 @@ const
   MaxPath = 16;
 var
   Sps_Editor: TSps_Editor;
-  PathBufferMap,BgroundMap: TMemoryBackend;
   //path colors
   co:array [0..15] of Tcolor;
   //Drawing routine
-  Bground,PathBuffer,MiniMap: TBitmap32;//for drawing routines
+  Bground,PathBuffer: TBitmap32;//for drawing routines
   //Jump Town menu
   JumpMenu: TPopupMenu;
   AreaPoint: array[0..18] of TPoint;
@@ -119,7 +120,7 @@ var
 
 
 implementation
-uses Code_Frm;
+uses Code_Frm, GR32_Transforms;
 {$R *.lfm}
 
 { TSps_Editor }
@@ -133,25 +134,33 @@ begin
   Dst.Draw(Dst.BoundsRect, Src.BoundsRect, Src);
 end;
 
+procedure LoadPng(Filename: string;Src: TBitmap32);
+begin
+   with TPortableNetworkGraphic32.Create do
+   try
+    LoadFromFile(FileName);
+    AssignTo(Src);
+   finally
+    Free;
+   end
+end;
 
 
 procedure TSps_Editor.MenuItem2Click(Sender: TObject);
-var
-  bmp: TBGRABitmap;
 begin
   sps_path:=TWPContainer.Create;
   odlg.Filter:='RS map files|*.png';
-  Bmp:= TBGRABitmap.Create;
   if odlg.Execute then
-   sps_path.MapFile:=odlg.FileName;
-   Bmp.LoadFromFile(sps_path.MapFile);
-  if (Bmp.Width<500) or (Bmp.Height<500) then
+   sps_path.MapFile:=odlg.FileName else exit;
+  // Bmp.LoadFromFile(sps_path.MapFile);
+  LoadPng(sps_path.MapFile,bground);
+  if (bground.Width<500) or (bground.Height<500) then
    begin
     ShowMessage('Not correct rs map file');
     exit;
    end;
   sps_path.MapType:=0;
-  if (Bmp.Width=7271) and (Bmp.Height=6630) then
+  if (bground.Width=7271) and (bground.Height=6630) then
    begin
    sps_path.MapType:=1;
    JumpMenu:=TPopupMenu.Create(Self);
@@ -159,7 +168,7 @@ begin
    end;
   if not (sps_path.MapType = 1) then
    JumpMenu.Free;
-   Bground.Assign(bmp.Bitmap);
+  // Bground.Assign(bmp.Bitmap);
   // Bground.BitmapHandle:=Bmp.Bitmap.Handle;
  {  PathBuffer.Width:=Bground.Width;
    PathBuffer.Height:=Bground.Height;}
@@ -267,7 +276,6 @@ end;
 
 procedure TSps_Editor.ToolButton11Click(Sender: TObject);
 var
-  bmp:TBGRABitmap;
   mbmp: TMufasaBitmap;
   Bitmaps: TMBitmaps;
   sps: TSPSPath;
@@ -432,9 +440,6 @@ procedure TSps_Editor.FormCreate(Sender: TObject);
 begin
   Bground:=TBitmap32.Create;
   PathBuffer:=TBitmap32.Create;
-  //MiniMap:=TBitmap32.Create;
-  //PathBufferMap:=TMemoryBackend.Create(PathBuffer);
- // BgroundMap:=TMemoryBackend.Create(Bground);
   FillColor;
   CodeType:=0;
   MenuItem6.Checked:=false;
@@ -442,7 +447,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.1 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.2 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -450,9 +455,6 @@ begin
   DrawTimer.Enabled:=false;
   Bground.Free;
   PathBuffer.Free;
-  Minimap.Free;
- // Delete(paramstr(0)+'Bground.a');
- // Delete(paramstr(0)+'PathBuffer.a');
 end;
 
 procedure TSps_Editor.DrawTimerTimer(Sender: TObject);
@@ -715,8 +717,6 @@ var
 begin
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
-  //PathBuffer.CanvasBGRA.Draw(0,0,bground);
-  //bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
   DrawSrcToDst(bground,pathbuffer);
   for i:=0 to sps_path.Count - 1 do
      begin
