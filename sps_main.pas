@@ -120,10 +120,25 @@ var
 
 
 implementation
-uses Code_Frm, GR32_Transforms;
+uses Code_Frm, GR32_Polygons;
 {$R *.lfm}
 
 { TSps_Editor }
+function toFixedPoint(pt: TPoint):TFixedPoint;
+begin
+  result:=TFixedPoint(pt);
+end;
+
+function TPAToFPA(TPA: TArrayOfPoint):TArrayOfFixedPoint;
+var
+  i: integer;
+begin
+  for i:=0 to length(tpa) -1 do
+     begin
+       setlength(result,i+1);
+       result[i]:=toFixedPoint(TPA[i]);
+     end;
+end;
 
 procedure DrawSrcToDst(Src, Dst: TBitmap32);
 var
@@ -477,10 +492,12 @@ begin
      sps_path.Items[CurrIndex].PointList[CurrSubIndex].y:=Y;
      ToListView(sps_path.Items[CurrIndex]);
    end else begin
-  oSpsPoint:=sps_path.Items[CurrIndex].PointList.AddItem;
-  oSpsPoint.x:=x;
-  oSpsPoint.y:=y;
-  ToListView(sps_path.Items[CurrIndex]);
+   if (Button = mbLeft)=true then begin
+      oSpsPoint:=sps_path.Items[CurrIndex].PointList.AddItem;
+      oSpsPoint.x:=x;
+      oSpsPoint.y:=y;
+      ToListView(sps_path.Items[CurrIndex]);
+  end;
    end;
 end;
 
@@ -699,8 +716,8 @@ procedure TSps_Editor.DrawPath();
   end;
  procedure DrawWaypoint(wp: TWaypoint);
  var
-   TPA: array of TPoint;
-   i: integer;
+   TPA: TArrayOfPoint;
+   i,t: integer;
   begin
    SetPen(wp.Color);
    SetLength(TPA,wp.PointList.Count);
