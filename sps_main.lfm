@@ -1,24 +1,24 @@
 object Sps_Editor: TSps_Editor
-  Left = 254
-  Height = 540
-  Top = 181
-  Width = 880
+  Left = 173
+  Height = 594
+  Top = 161
+  Width = 976
   BorderStyle = bsToolWindow
-  ClientHeight = 520
-  ClientWidth = 880
+  ClientHeight = 574
+  ClientWidth = 976
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
   LCLVersion = '1.0.4.0'
   object ScrollBox1: TScrollBox
     Left = 248
-    Height = 464
+    Height = 520
     Top = 32
-    Width = 632
-    HorzScrollBar.Page = 628
-    VertScrollBar.Page = 460
-    ClientHeight = 460
-    ClientWidth = 628
+    Width = 728
+    HorzScrollBar.Page = 724
+    VertScrollBar.Page = 516
+    ClientHeight = 516
+    ClientWidth = 724
     TabOrder = 0
     object MapRender: TPaintBox
       Left = 0
@@ -27,14 +27,15 @@ object Sps_Editor: TSps_Editor
       Width = 105
       OnMouseDown = MapRenderMouseDown
       OnMouseMove = MapRenderMouseMove
+      OnMouseUp = MapRenderMouseUp
       OnPaint = MapRenderPaint
     end
   end
   object StatusBar1: TStatusBar
     Left = 0
     Height = 23
-    Top = 497
-    Width = 880
+    Top = 551
+    Width = 976
     Panels = <    
       item
         Width = 90
@@ -49,11 +50,11 @@ object Sps_Editor: TSps_Editor
   end
   object GroupBox1: TGroupBox
     Left = 0
-    Height = 472
+    Height = 528
     Top = 24
     Width = 249
     Caption = 'Paths:'
-    ClientHeight = 454
+    ClientHeight = 510
     ClientWidth = 245
     TabOrder = 2
     object Label1: TLabel
@@ -86,7 +87,7 @@ object Sps_Editor: TSps_Editor
     end
     object wpList: TListView
       Left = 6
-      Height = 384
+      Height = 440
       Top = 64
       Width = 234
       Columns = <      
@@ -113,16 +114,19 @@ object Sps_Editor: TSps_Editor
     Left = 0
     Height = 26
     Top = 0
-    Width = 880
+    Width = 976
     Caption = 'ToolBar1'
     Images = ImageList1
     TabOrder = 3
     object ToolButton1: TToolButton
       Left = 1
+      Hint = 'Load map'
       Top = 2
       Caption = 'ToolButton1'
       ImageIndex = 0
       OnClick = MenuItem2Click
+      ParentShowHint = False
+      ShowHint = True
     end
     object ToolButton2: TToolButton
       Left = 24
@@ -133,32 +137,44 @@ object Sps_Editor: TSps_Editor
     end
     object ToolButton3: TToolButton
       Left = 34
+      Hint = 'New path'
       Top = 2
       Caption = 'ToolButton3'
       ImageIndex = 1
       OnClick = ToolButton3Click
+      ParentShowHint = False
+      ShowHint = True
     end
     object ToolButton4: TToolButton
       Left = 57
+      Hint = 'Invert current path'
       Top = 2
       Caption = 'ToolButton4'
       ImageIndex = 2
       OnClick = ToolButton4Click
+      ParentShowHint = False
+      ShowHint = True
     end
     object ToolButton5: TToolButton
       Left = 80
+      Hint = 'Save  map'
       Top = 2
       Caption = 'ToolButton5'
       ImageIndex = 3
       OnClick = ToolButton5Click
+      ParentShowHint = False
+      ShowHint = True
       Visible = False
     end
     object ToolButton6: TToolButton
       Left = 103
+      Hint = 'Load saved map'
       Top = 2
       Caption = 'ToolButton6'
       ImageIndex = 4
       OnClick = ToolButton6Click
+      ParentShowHint = False
+      ShowHint = True
       Visible = False
     end
     object ToolButton8: TToolButton
@@ -170,10 +186,13 @@ object Sps_Editor: TSps_Editor
     end
     object ToolButton9: TToolButton
       Left = 136
+      Hint = 'Generate code'
       Top = 2
       Caption = 'ToolButton9'
       ImageIndex = 5
       OnClick = ToolButton9Click
+      ParentShowHint = False
+      ShowHint = True
     end
     object ToolButton7: TToolButton
       Left = 159
@@ -184,17 +203,23 @@ object Sps_Editor: TSps_Editor
     end
     object ToolButton10: TToolButton
       Left = 169
+      Hint = 'Save map to file'
       Top = 2
       Caption = 'ToolButton10'
       ImageIndex = 6
       OnClick = ToolButton10Click
+      ParentShowHint = False
+      ShowHint = True
     end
     object ToolButton11: TToolButton
       Left = 192
+      Hint = 'Load from map file'
       Top = 2
       Caption = 'ToolButton11'
       ImageIndex = 7
       OnClick = ToolButton11Click
+      ParentShowHint = False
+      ShowHint = True
     end
   end
   object MainMenu1: TMainMenu

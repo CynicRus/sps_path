@@ -62,6 +62,8 @@ type
       Shift: TShiftState; X, Y: Integer);
     procedure MapRenderMouseMove(Sender: TObject; Shift: TShiftState; X,
       Y: Integer);
+    procedure MapRenderMouseUp(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure MapRenderPaint(Sender: TObject);
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
@@ -116,7 +118,9 @@ var
   CurrIndex,CurrSubIndex: integer;
   //
   CodeType: integer;
-  //
+  // Dragging
+  StartPt: TPoint;
+  IsMoved: Boolean = false;
 
 
 implementation
@@ -462,7 +466,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.2 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.3 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -483,6 +487,14 @@ procedure TSps_Editor.MapRenderMouseDown(Sender: TObject; Button: TMouseButton;
 var
   oSpsPoint: TSpsPoint;
 begin
+if (ssCtrl in Shift) and (Button = mbLeft) then
+  begin
+    IsMoved := True;
+    StartPt:=Point(X,Y);
+  //  Scrollbox1.DoubleBuffered := True;
+    MapRender.Repaint;
+    Exit;
+  end;
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
   if (CurrIndex = MaxPath) then exit;
@@ -497,18 +509,35 @@ begin
       oSpsPoint.x:=x;
       oSpsPoint.y:=y;
       ToListView(sps_path.Items[CurrIndex]);
-  end;
+   end;
    end;
 end;
 
 procedure TSps_Editor.MapRenderMouseMove(Sender: TObject; Shift: TShiftState;
   X, Y: Integer);
 begin
+  if (IsMoved) and (StartPt.x>=0) then
+   begin
+      Scrollbox1.VertScrollBar.Position := Scrollbox1.VertScrollBar.Position + StartPt.Y - Y;
+      Scrollbox1.HorzScrollBar.Position := Scrollbox1.HorzScrollBar.Position + StartPt.X - X;
+      StartPt:=Point(X,Y);
+   end;
   With StatusBar1 do
    begin
      Panels[0].Text:='X coord:'+#32+IntToStr(X);
      Panels[1].Text:='Y coord:'+#32+IntToStr(Y);
    end;
+end;
+
+procedure TSps_Editor.MapRenderMouseUp(Sender: TObject; Button: TMouseButton;
+  Shift: TShiftState; X, Y: Integer);
+begin
+if (ssCtrl in Shift) and (Button = mbLeft) then
+  begin
+    IsMoved := false;
+    StartPt:=Point(-1,-1);
+  //  Scrollbox1.DoubleBuffered := False;
+  end;
 end;
 
 procedure TSps_Editor.MapRenderPaint(Sender: TObject);
