@@ -20,6 +20,7 @@ type
     MenuItem10: TMenuItem;
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
+    MenuItem13: TMenuItem;
     odlg: TOpenDialog;
     JumpMenu: TPopupMenu;
     MapRender: TPaintBox;
@@ -74,6 +75,8 @@ type
     procedure MenuItem6Click(Sender: TObject);
     procedure pBoxChange(Sender: TObject);
     procedure pBoxSelect(Sender: TObject);
+    procedure ScrollBox1MouseDown(Sender: TObject; Button: TMouseButton;
+      Shift: TShiftState; X, Y: Integer);
     procedure ToolButton10Click(Sender: TObject);
     procedure ToolButton11Click(Sender: TObject);
     procedure ToolButton3Click(Sender: TObject);
@@ -173,6 +176,7 @@ begin
    sps_path.MapFile:=odlg.FileName else exit;
   // Bmp.LoadFromFile(sps_path.MapFile);
   LoadPng(sps_path.MapFile,bground);
+  MenuItem13.Visible:=false;
   if (bground.Width<500) or (bground.Height<500) then
    begin
     ShowMessage('Not correct rs map file');
@@ -183,6 +187,7 @@ begin
    begin
    sps_path.MapType:=1;
    JumpMenu:=TPopupMenu.Create(Self);
+   MenuItem13.Visible:=true;
    FillAreaList;
    end;
   if not (sps_path.MapType = 1) then
@@ -238,6 +243,12 @@ begin
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
   CurrIndex:=Pbox.ItemIndex;
+end;
+
+procedure TSps_Editor.ScrollBox1MouseDown(Sender: TObject;
+  Button: TMouseButton; Shift: TShiftState; X, Y: Integer);
+begin
+
 end;
 
 procedure TSps_Editor.ToolButton10Click(Sender: TObject);
@@ -319,7 +330,15 @@ begin
    bground.Assign(mbmp.ToTBitmap);
    SPS_FillPath(s,sps);
   if not (sps_path.MapType = 1) then
+   begin
    JumpMenu.Free;
+   MenuItem13.Visible:=false;
+   end else
+   begin
+     JumpMenu:=TPopupMenu.Create(Self);
+     MenuItem13.Visible:=true;
+     FillAreaList;
+   end;
   //Bground.Assign(bmp);
    PathBuffer.SetSize(Bground.Width,Bground.Height);
  // Pathbuffer.Canvas.Draw(0,0,Bground);
@@ -466,7 +485,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.3 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.4 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -492,11 +511,14 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
     IsMoved := True;
     StartPt:=Point(X,Y);
   //  Scrollbox1.DoubleBuffered := True;
-    MapRender.Repaint;
+    //MapRender.Repaint;
+    DrawTimer.Enabled:=false;
+   //  DrawPath;
+     MapRender.Repaint;
     Exit;
   end;
-  if not assigned(sps_path) then exit;
-  if not (sps_path.Count > 0) then exit;
+  if  not assigned(sps_path) then
+     MenuItem2Click(Sender);
   if (CurrIndex = MaxPath) then exit;
    if (ssShift in Shift)=true then
    begin
@@ -505,11 +527,19 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
      ToListView(sps_path.Items[CurrIndex]);
    end else begin
    if (Button = mbLeft)=true then begin
+     if not (sps_path.Count > 0) then
+     ToolButton3Click(Sender) else
+      begin
       oSpsPoint:=sps_path.Items[CurrIndex].PointList.AddItem;
       oSpsPoint.x:=x;
       oSpsPoint.y:=y;
       ToListView(sps_path.Items[CurrIndex]);
+      end;
    end;
+  { if (Button = mbRight)=true then begin
+      if (sps_path.MapType = 1) then
+        JumpMenu.PopUp(MapRender.Top+X,MapRender.Left+Y);
+     end;}
    end;
 end;
 
@@ -521,6 +551,7 @@ begin
       Scrollbox1.VertScrollBar.Position := Scrollbox1.VertScrollBar.Position + StartPt.Y - Y;
       Scrollbox1.HorzScrollBar.Position := Scrollbox1.HorzScrollBar.Position + StartPt.X - X;
       StartPt:=Point(X,Y);
+
    end;
   With StatusBar1 do
    begin
@@ -536,6 +567,7 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
   begin
     IsMoved := false;
     StartPt:=Point(-1,-1);
+    DrawTimer.Enabled:=true;
   //  Scrollbox1.DoubleBuffered := False;
   end;
 end;
@@ -689,9 +721,11 @@ end;
 procedure TSps_Editor.CreateJumpMenu;
 var
   jump: array of TMenuItem;
+  Main: array of TMenuItem;
   i: integer;
 begin
   SetLength(jump,19);
+  SetLength(main,19);
   for i:=0 to Length(AreaName)-1 do
      begin
         jump[i]:=TMenuItem.Create(self);
@@ -703,8 +737,19 @@ begin
     begin
       JumpMenu.Items.Insert(i,jump[i]);
     end;
- //MapRender.PopupMenu:=JumpMenu;
- Sps_Editor.PopupMenu:=JumpMenu;
+   for i:=0 to Length(AreaName)-1 do
+     begin
+        main[i]:=TMenuItem.Create(self);
+        main[i].Caption:=AreaName[i];
+        main[i].OnClick:=@JumpTo;
+        main[i].Tag:=i;
+       end;
+   for i:=0 to Length(main)-1 do
+    begin
+       MenuItem13.Insert(i,main[i]);
+    end;
+ MapRender.PopupMenu:=JumpMenu;
+// Sps_Editor.PopupMenu:=JumpMenu;
 end;
 
 procedure TSps_Editor.ToComboBox;
