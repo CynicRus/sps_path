@@ -208,7 +208,7 @@ object Sps_Editor: TSps_Editor
       Top = 2
       Caption = 'ToolButton10'
       ImageIndex = 6
-      OnClick = ToolButton10Click
+      OnClick = ToolButton5Click
       ParentShowHint = False
       ShowHint = True
     end
@@ -218,7 +218,7 @@ object Sps_Editor: TSps_Editor
       Top = 2
       Caption = 'ToolButton11'
       ImageIndex = 7
-      OnClick = ToolButton11Click
+      OnClick = ToolButton6Click
       ParentShowHint = False
       ShowHint = True
     end

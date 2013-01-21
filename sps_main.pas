@@ -127,25 +127,20 @@ var
 
 
 implementation
-uses Code_Frm, GR32_Polygons;
+uses Code_Frm;
 {$R *.lfm}
-
-{ TSps_Editor }
-function toFixedPoint(pt: TPoint):TFixedPoint;
-begin
-  result:=TFixedPoint(pt);
-end;
-
-function TPAToFPA(TPA: TArrayOfPoint):TArrayOfFixedPoint;
+function MakeArrayOfFixedPoints(const APointArray: TArrayOfPoint): TArrayOfFixedPoint;
 var
-  i: integer;
+  i, LPointCount: Integer;
 begin
-  for i:=0 to length(tpa) -1 do
-     begin
-       setlength(result,i+1);
-       result[i]:=toFixedPoint(TPA[i]);
-     end;
+  LPointCount := Length(APointArray);
+  SetLength(Result, LPointCount);
+  for i := 0 to (LPointCount - 1) do
+  begin
+    Result[i] := FixedPoint(APointArray[i]);
+  end;
 end;
+{ TSps_Editor }
 
 procedure DrawSrcToDst(Src, Dst: TBitmap32);
 var
@@ -169,13 +164,17 @@ end;
 
 
 procedure TSps_Editor.MenuItem2Click(Sender: TObject);
+var
+  s: string;
 begin
   sps_path:=TWPContainer.Create;
   odlg.Filter:='RS map files|*.png';
   if odlg.Execute then
    sps_path.MapFile:=odlg.FileName else exit;
+  S:=ExtractFileName(sps_path.MapFile);
   // Bmp.LoadFromFile(sps_path.MapFile);
   LoadPng(sps_path.MapFile,bground);
+
   MenuItem13.Visible:=false;
   if (bground.Width<500) or (bground.Height<500) then
    begin
@@ -183,7 +182,7 @@ begin
     exit;
    end;
   sps_path.MapType:=0;
-  if (bground.Width=7271) and (bground.Height=6630) then
+  if eq(s,'runescape_surface.png') then
    begin
    sps_path.MapType:=1;
    JumpMenu:=TPopupMenu.Create(Self);
@@ -379,10 +378,11 @@ begin
 end;
 
 procedure TSps_Editor.ToolButton6Click(Sender: TObject);
-//var
+var
+  s: string;
  // bmp:TBGRABitmap;
 begin
-  {drawtimer.Enabled:=false;
+  drawtimer.Enabled:=false;
  // bmp:= TBGRABitmap.Create;
   sps_path:=TWPContainer.Create;
   pbox.Items.Clear;
@@ -391,28 +391,35 @@ begin
   CurrSubIndex:=0;
   odlg.Filter:='SPS editor map files|*.sps';
   if odlg.Execute then sps_path.LoadFromFile(odlg.FileName) else exit;
-  bground.LoadFromFile(sps_path.MapFile);
+  //bground.LoadFromFile(sps_path.MapFile);
+  s:=ExtractFileName(sps_path.MapFile);
+  LoadPng(sps_path.MapFile,bground);
+  MenuItem13.Visible:=false;
   if (bground.Width<500) or (bground.Height<500) and (sps_path.MapType = 0) then
    begin
     ShowMessage('Not correct map image file');
     exit;
    end;
-  if (bground.Width=7271) and (bground.Height=6630) and (sps_path.MapType = 1)  then
+  if eq(s,'runescape_surface.png') and (sps_path.MapType = 1)  then
    begin
    JumpMenu:=TPopupMenu.Create(Self);
    FillAreaList;
+   MenuItem13.Visible:=true;
    end;
   if not (sps_path.MapType = 1) then
    JumpMenu.Free;
   PathBuffer.SetSize(Bground.Width,Bground.Height);
-  PathBuffer.CanvasBGRA.Draw(0,0,Bground);
-  MapRender.Width:=Bground.Width;
-  MapRender.Height:=Bground.Height;
-  //MapRender.Canvas.Draw(0,0,PathBuffer);
-  PathBuffer.Draw(MapRender.Canvas,0,0,true);
-  ToComboBox;
-  DrawPath;
-  DrawTimer.Enabled:=true;
+   //Pathbuffer.Canvas.Draw(0,0,Bground);
+  // Bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
+   DrawSrcToDst(Bground,PathBuffer);
+   MapRender.Width:=Bground.Width;
+   MapRender.Height:=Bground.Height;
+   PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
+   PBox.Items.Clear;
+   wpList.Items.Clear;
+   ToComboBox;
+   DrawPath;
+   DrawTimer.Enabled:=true;
   //bmp.Free; }
 end;
 
@@ -485,7 +492,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.4 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.5 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -787,6 +794,7 @@ procedure TSps_Editor.DrawPath();
  procedure DrawSpsPoint(SpsPoint: TSpsPoint);
   begin
    PathBuffer.Canvas.Ellipse( SpsPoint.x - 3, SpsPoint.y - 3, SpsPoint.x + 3, SpsPoint.y + 3 );
+   //PathBuffer.Ellipse(FixedRect(MakeRect(SpsPoint.x - 3, SpsPoint.y - 3, SpsPoint.x + 3, SpsPoint.y + 3)),true);
   end;
  procedure DrawWaypoint(wp: TWaypoint);
  var
