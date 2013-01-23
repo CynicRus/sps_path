@@ -30,6 +30,9 @@ function GetFileName(fname : String) : String;
 
 function GetAreaCodes(const pth: TPath): string;
 
+procedure  ToArray(var V: TPointArray; const R: TPoint);
+
+procedure ClearDoubleTPA(var TPA: TPointArray);
 
 
 implementation
@@ -80,58 +83,82 @@ function GetAreaCodes(const pth: TPath): string;
 var
   pt: TSpsPoint;
   wp: TWaypoint;
-  i,j,d: integer;
-  st: TStringList;
+  i,j,d,l: integer;
+  AreaTPA:TPointArray;
   s:string;
   XArea,YArea: integer;
 begin
-  st:=TStringList.Create;
-  st.Duplicates:=dupIgnore;
-  st.Sorted:=true;
+  SetLength(AreaTPA,0);
   s:= 'SPS_Setup(RUNESCAPE_SURFACE,[';
   for i:=0 to pth.Count-1 do
   begin
     wp:=pth[i];
      for d:=0 to wp.PointList.Count-1 do
       begin
-        pt:=wp.PointList[i];
+        pt:=wp.PointList.Items[d];
         XArea:=floor(pt.x/400);
         YArea:=floor(pt.y/400);
-        if j = 0 then
-        begin
-         St.Add(#39+IntToStr(XArea)+'_'+IntToStr(YArea)+#39);
-         St.Add(','+#39+IntToStr(XArea)+'_'+IntToStr(YArea-1)+#39);
-         St.Add(','+#39+IntToStr(XArea-1)+'_'+IntToStr(YArea)+#39);
-         St.Add(','+#39+IntToStr(XArea+1)+'_'+IntToStr(YArea)+#39);
-         St.Add(','+#39+IntToStr(XArea)+'_'+IntToStr(YArea+1)+#39);
-         St.Add(','+#39+IntToStr(XArea-1)+'_'+IntToStr(YArea-1)+#39);
-         St.Add(','+#39+IntToStr(XArea+1)+'_'+IntToStr(YArea+1)+#39);
-         St.Add(','+#39+IntToStr(XArea+1)+'_'+IntToStr(YArea-1)+#39);
-         St.Add(','+#39+IntToStr(XArea-1)+'_'+IntToStr(YArea+1)+#39);
-         end;
-        if (j > 0) then
-        begin
-         St.Add(','+#39+IntToStr(XArea)+'_'+IntToStr(YArea)+#39);
-         St.Add(','+#39+IntToStr(XArea)+'_'+IntToStr(YArea-1)+#39);
-         St.Add(','+#39+IntToStr(XArea-1)+'_'+IntToStr(YArea)+#39);
-         St.Add(','+#39+IntToStr(XArea+1)+'_'+IntToStr(YArea)+#39);
-         St.Add(','+#39+IntToStr(XArea)+'_'+IntToStr(YArea+1)+#39);
-         St.Add(','+#39+IntToStr(XArea-1)+'_'+IntToStr(YArea-1)+#39);
-         St.Add(','+#39+IntToStr(XArea+1)+'_'+IntToStr(YArea+1)+#39);
-         St.Add(','+#39+IntToStr(XArea+1)+'_'+IntToStr(YArea-1)+#39);
-         St.Add(','+#39+IntToStr(XArea-1)+'_'+IntToStr(YArea+1)+#39);
-         end;
-        if (j = wp.PointList.Count-1) then
-          St.Add('];');
-      end;
+        ToArray(AreaTPA,Point(XArea,YArea));
+       end;
   end;
-  for i:=0 to st.Count-1 do
-   begin
-     s:=s+st.Strings[i];
-   end;
-  st.Free;
+  ClearDoubleTPA(AreaTPA);
+  l:=length(AreaTPA);
+  for j:=0 to l-1 do
+    begin
+      s:=s+#39+IntToStr(AreaTPA[j].x)+'_'+IntToStr(AreaTPA[j].y)+#39+','
+      end;
+  if (S[Length(S)] in ['.',',']) then delete(s,length(s),1);
+  S:=s+']);';
+  AreaTPA:=nil;
   result:=s;
 end;
+
+procedure ToArray(var V: TPointArray; const R: TPoint);
+var
+  Len: integer;
+begin
+  Len := Length(V);
+  SetLength(V, Len + 1);
+  V[Len] := R;
+end;
+
+procedure ClearDoubleTPA(var TPA: TPointArray);
+var
+  i,j,k : integer;
+  flag  : boolean;
+  tmp     : TPointArray;
+Begin
+  i:=0;
+  SetLength(tmp,0);
+  while i < Length(TPA) do
+  begin
+    flag:=false;
+    k:=0;
+    while (k < Length(tmp)) and (not flag) do
+    begin
+      flag:=tmp[k]=TPA[i];
+      Inc(k);
+    end;
+    if not flag then
+    begin
+      k:=Length(tmp);
+      SetLength(tmp,k+1);
+      tmp[k]:=TPA[i];
+      Inc(i);
+    end
+    else
+     begin
+      j:=i;
+      while j < length (TPA)-1 do
+      begin
+        TPA[j]:=TPA[j+1];
+        inc(j);
+      end;
+      SetLength(TPA,Length(TPA)-1);
+    end;
+  end;
+end;
+
 
 end.
 

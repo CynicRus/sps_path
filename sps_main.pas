@@ -15,6 +15,7 @@ type
   { TSps_Editor }
 
   TSps_Editor = class(TForm)
+    Button1: TButton;
     ImageList1: TImageList;
     Label2: TLabel;
     MenuItem10: TMenuItem;
@@ -122,7 +123,7 @@ var
   //
   CodeType: integer;
   // Dragging
-  StartPt: TPoint;
+  StartPt,CirclePoint: TPoint;
   IsMoved: Boolean = false;
 
 
@@ -138,6 +139,42 @@ begin
   for i := 0 to (LPointCount - 1) do
   begin
     Result[i] := FixedPoint(APointArray[i]);
+  end;
+end;
+
+//draw circle
+
+Procedure DrawCircle(CenterX, CenterY, Radius: Integer; Canvas: TCanvas; Color :TColor);
+var x,y,error,delta : integer;
+begin
+   InvalidateRect(Canvas.Handle, nil, true);
+  x := 0;
+  y := Radius;
+  delta := (2 - 2 * Radius);
+  error := 0;
+  while y >= 0 do
+  begin
+    Canvas.Pixels[CenterX + x,CenterY + y] := Color;
+    Canvas.Pixels[CenterX + x,CenterY - y] := Color;
+    Canvas.Pixels[CenterX - x,CenterY + y] := Color;
+    Canvas.Pixels[CenterX - x,CenterY - y] := Color;
+    error := 2 * (delta + y) - 1;
+    if ((delta < 0) and (error <= 0)) then
+    begin
+      inc(x);
+      delta := delta + (2 * x + 1);
+      continue;
+    end;
+    error := 2 * (delta - x) - 1;
+    if ((delta > 0) and (error > 0)) then
+    begin
+      dec(y);
+      delta := delta + (1 - 2 * y);
+      continue;
+    end;
+    inc(x);
+    delta := delta + (2 * (x - y));
+    dec(y);
   end;
 end;
 { TSps_Editor }
@@ -492,7 +529,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.5 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.6 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -508,6 +545,7 @@ begin
   MapRender.Refresh;
 end;
 
+
 procedure TSps_Editor.MapRenderMouseDown(Sender: TObject; Button: TMouseButton;
   Shift: TShiftState; X, Y: Integer);
 var
@@ -521,7 +559,7 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
     //MapRender.Repaint;
     DrawTimer.Enabled:=false;
    //  DrawPath;
-     MapRender.Repaint;
+    // MapRender.Repaint;
     Exit;
   end;
   if  not assigned(sps_path) then
@@ -565,6 +603,8 @@ begin
      Panels[0].Text:='X coord:'+#32+IntToStr(X);
      Panels[1].Text:='Y coord:'+#32+IntToStr(Y);
    end;
+  CirclePoint.x:=X;
+  CirclePoint.y:=Y;
 end;
 
 procedure TSps_Editor.MapRenderMouseUp(Sender: TObject; Button: TMouseButton;
@@ -755,8 +795,8 @@ begin
     begin
        MenuItem13.Insert(i,main[i]);
     end;
- MapRender.PopupMenu:=JumpMenu;
-// Sps_Editor.PopupMenu:=JumpMenu;
+ //MapRender.PopupMenu:=JumpMenu;
+Sps_Editor.PopupMenu:=JumpMenu;
 end;
 
 procedure TSps_Editor.ToComboBox;
@@ -817,6 +857,7 @@ begin
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
   DrawSrcToDst(bground,pathbuffer);
+  DrawCircle(CirclePoint.X,CirclePoint.Y,73,PAthBuffer.Canvas, sps_path.Items[CurrIndex].Color);
   for i:=0 to sps_path.Count - 1 do
      begin
        DrawWaypoint(sps_path.Items[i]);

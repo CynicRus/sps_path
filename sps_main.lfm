@@ -9,6 +9,7 @@ object Sps_Editor: TSps_Editor
   Menu = MainMenu1
   OnCreate = FormCreate
   OnDestroy = FormDestroy
+  Position = poScreenCenter
   LCLVersion = '1.0.4.0'
   object ScrollBox1: TScrollBox
     Left = 248
@@ -88,7 +89,7 @@ object Sps_Editor: TSps_Editor
     end
     object wpList: TListView
       Left = 6
-      Height = 440
+      Height = 416
       Top = 64
       Width = 234
       Columns = <      
@@ -109,6 +110,15 @@ object Sps_Editor: TSps_Editor
       ViewStyle = vsReport
       OnKeyDown = wpListKeyDown
       OnMouseDown = wpListMouseDown
+    end
+    object Button1: TButton
+      Left = 6
+      Height = 25
+      Top = 480
+      Width = 234
+      Caption = 'Generate code'
+      OnClick = ToolButton9Click
+      TabOrder = 2
     end
   end
   object ToolBar1: TToolBar
@@ -550,7 +560,7 @@ object Sps_Editor: TSps_Editor
     end
   end
   object DrawTimer: TTimer
-    Interval = 300
+    Interval = 50
     OnTimer = DrawTimerTimer
     left = 720
   end
