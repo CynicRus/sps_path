@@ -136,7 +136,7 @@ begin
     begin
       st.Clear;
       st.Add('program Walker;');
-      st.Add('//The code was generated with the path generator for SPS version 2.5.6 by Cynic');
+      st.Add('//The code was generated with the path generator for SPS version 2.5.7 by Cynic');
       st.Add('{$DEFINE SMART}');
       st.Add('{$i SRL/srl.simba}');
       st.Add('{$i sps/sps.simba}');
@@ -206,6 +206,15 @@ begin
          else
            st.Add(GenSpaces(2)+'SPS_Setup(RUNESCAPE_OTHER,['+#39+GetFileName(MapFile)+#39+']);');
          st.Add('end;');
+         st.Add('');
+         st.Add('begin');
+         st.Add(GenSpaces(2)+'SetupWalker;');
+         for i:=0 to count -1 do
+          begin
+            wp:=items[i];
+            st.Add(GenSpaces(2)+Wp.Name+';');
+          end;
+         st.Add('end.');
     end;
   1:
     begin
@@ -234,7 +243,7 @@ begin
     begin
       st.Clear;
       st.Add('program Walker;');
-      st.Add('//The code was generated with the path generator for SPS version 2.5.6 by Cynic');
+      st.Add('//The code was generated with the path generator for SPS version 2.5.7 by Cynic');
       st.Add('//In that code uses the BlindWalk snippet by litoris.');
       st.Add('{$DEFINE SMART}');
       st.Add('{$i SRL/srl.simba}');
@@ -301,6 +310,15 @@ begin
          else
            st.Add(GenSpaces(2)+'SPS_Setup(RUNESCAPE_OTHER,['+#39+GetFileName(MapFile)+#39+']);');
          st.Add('end;');
+          st.Add('');
+         st.Add('begin');
+         st.Add(GenSpaces(2)+'SetupWalker;');
+         for i:=0 to count -1 do
+          begin
+            wp:=items[i];
+            st.Add(GenSpaces(2)+Wp.Name+';');
+          end;
+         st.Add('end.');
     end;
   end;
 end;

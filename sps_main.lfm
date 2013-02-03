@@ -46,6 +46,9 @@ object Sps_Editor: TSps_Editor
         Width = 90
       end    
       item
+        Width = 220
+      end    
+      item
         Width = 50
       end>
     SimplePanel = False

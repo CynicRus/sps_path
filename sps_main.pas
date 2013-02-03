@@ -209,9 +209,7 @@ begin
   if odlg.Execute then
    sps_path.MapFile:=odlg.FileName else exit;
   S:=ExtractFileName(sps_path.MapFile);
-  // Bmp.LoadFromFile(sps_path.MapFile);
   LoadPng(sps_path.MapFile,bground);
-
   MenuItem13.Visible:=false;
   if (bground.Width<500) or (bground.Height<500) then
    begin
@@ -228,22 +226,13 @@ begin
    end;
   if not (sps_path.MapType = 1) then
    JumpMenu.Free;
-  // Bground.Assign(bmp.Bitmap);
-  // Bground.BitmapHandle:=Bmp.Bitmap.Handle;
- {  PathBuffer.Width:=Bground.Width;
-   PathBuffer.Height:=Bground.Height;}
    PathBuffer.SetSize(Bground.Width,Bground.Height);
-   //Pathbuffer.Canvas.Draw(0,0,Bground);
-  // Bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
    DrawSrcToDst(Bground,PathBuffer);
    MapRender.Width:=Bground.Width;
    MapRender.Height:=Bground.Height;
   PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
   PBox.Items.Clear;
   wpList.Items.Clear;
-  //bmp.Bitmap.SaveToFile('C:/Test.bmp');
- // bmp.Free;
- // Bmp.Draw(MapRender.Canvas,0,0);
 end;
 
 procedure TSps_Editor.MenuItem3Click(Sender: TObject);
@@ -321,16 +310,13 @@ begin
   Path.Map:=Storage.MapImg;
   for i:=0 to Storage.Count - 1 do
    begin
-  //   mDebug('First stage: OK;');
      Path.MapPaths[i].Name:=Storage.Items[i].Name;
      Len:= Storage.Items[i].PointList.Count;
      SetLength(Path.MapPaths[i].PointList,len);
-   //  Path.MapPaths[i].Name:=Storage.Items[i].Name;
       for j:=0 to Storage.Items[i].PointList.Count - 1 do
         begin
           Path.MapPaths[i].PointList[j].x:=Storage.Items[i].PointList[j].x;
           Path.MapPaths[i].PointList[j].y:=Storage.Items[i].PointList[j].y;
-         // mDebug('Second stage: OK;');
         end;
    end;
 
@@ -349,7 +335,6 @@ var
   i: integer;
 begin
   drawtimer.Enabled:=false;
- // bmp:= TBGRABitmap.Create;
   mbmp:= TMufasaBitmap.Create;
   sps_path:=TWPContainer.Create;
   pbox.Items.Clear;
@@ -362,7 +347,6 @@ begin
    Bitmaps:=TMBitmaps.Create(self);
    Bitmaps.CreateBMPFromString(500,500,sps_path.MapImg);
    MBmp:=Bitmaps.GetBMP(0);
-  // bground.BitmapHandle:=mbmp.ToTBitmap.Handle;
    bground.Assign(mbmp.ToTBitmap);
    SPS_FillPath(s,sps);
   if not (sps_path.MapType = 1) then
@@ -375,21 +359,14 @@ begin
      MenuItem13.Visible:=true;
      FillAreaList;
    end;
-  //Bground.Assign(bmp);
    PathBuffer.SetSize(Bground.Width,Bground.Height);
- // Pathbuffer.Canvas.Draw(0,0,Bground);
- // Bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
   DrawSrcToDst(Bground,PathBuffer);
   MapRender.Width:=Bground.Width;
   MapRender.Height:=Bground.Height;
- // MapRender.Canvas.Draw(0,0,PathBuffer);
   PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
   ToComboBox;
   DrawPath;
   DrawTimer.Enabled:=true;
- // Bitmaps.Free;
- // mbmp.Free;
- // bmp.Free;
 end;
 
 procedure TSps_Editor.ToolButton3Click(Sender: TObject);
@@ -417,10 +394,8 @@ end;
 procedure TSps_Editor.ToolButton6Click(Sender: TObject);
 var
   s: string;
- // bmp:TBGRABitmap;
 begin
   drawtimer.Enabled:=false;
- // bmp:= TBGRABitmap.Create;
   sps_path:=TWPContainer.Create;
   pbox.Items.Clear;
   wplist.Items.Clear;
@@ -428,7 +403,6 @@ begin
   CurrSubIndex:=0;
   odlg.Filter:='SPS editor map files|*.sps';
   if odlg.Execute then sps_path.LoadFromFile(odlg.FileName) else exit;
-  //bground.LoadFromFile(sps_path.MapFile);
   s:=ExtractFileName(sps_path.MapFile);
   LoadPng(sps_path.MapFile,bground);
   MenuItem13.Visible:=false;
@@ -446,8 +420,6 @@ begin
   if not (sps_path.MapType = 1) then
    JumpMenu.Free;
   PathBuffer.SetSize(Bground.Width,Bground.Height);
-   //Pathbuffer.Canvas.Draw(0,0,Bground);
-  // Bground.DrawTo(PathBuffer.Canvas.Handle,0,0);
    DrawSrcToDst(Bground,PathBuffer);
    MapRender.Width:=Bground.Width;
    MapRender.Height:=Bground.Height;
@@ -457,7 +429,6 @@ begin
    ToComboBox;
    DrawPath;
    DrawTimer.Enabled:=true;
-  //bmp.Free; }
 end;
 
 procedure TSps_Editor.ToolButton9Click(Sender: TObject);
@@ -529,7 +500,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.6 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.7 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -555,11 +526,7 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
   begin
     IsMoved := True;
     StartPt:=Point(X,Y);
-  //  Scrollbox1.DoubleBuffered := True;
-    //MapRender.Repaint;
     DrawTimer.Enabled:=false;
-   //  DrawPath;
-    // MapRender.Repaint;
     Exit;
   end;
   if  not assigned(sps_path) then
@@ -581,10 +548,6 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
       ToListView(sps_path.Items[CurrIndex]);
       end;
    end;
-  { if (Button = mbRight)=true then begin
-      if (sps_path.MapType = 1) then
-        JumpMenu.PopUp(MapRender.Top+X,MapRender.Left+Y);
-     end;}
    end;
 end;
 
@@ -615,13 +578,11 @@ if (ssCtrl in Shift) and (Button = mbLeft) then
     IsMoved := false;
     StartPt:=Point(-1,-1);
     DrawTimer.Enabled:=true;
-  //  Scrollbox1.DoubleBuffered := False;
   end;
 end;
 
 procedure TSps_Editor.MapRenderPaint(Sender: TObject);
 begin
-  //MapRender.Canvas.Draw(0,0,PathBuffer);
   PathBuffer.DrawTo(MapRender.Canvas.Handle,0,0);
 end;
 
@@ -644,6 +605,7 @@ end;
 
 procedure TSps_Editor.MenuItem11Click(Sender: TObject);
 begin
+  StatusBar1.Panels[2].Text:='';
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
   sps_path.Delete(CurrIndex);
@@ -795,7 +757,6 @@ begin
     begin
        MenuItem13.Insert(i,main[i]);
     end;
- //MapRender.PopupMenu:=JumpMenu;
 Sps_Editor.PopupMenu:=JumpMenu;
 end;
 
@@ -834,7 +795,6 @@ procedure TSps_Editor.DrawPath();
  procedure DrawSpsPoint(SpsPoint: TSpsPoint);
   begin
    PathBuffer.Canvas.Ellipse( SpsPoint.x - 3, SpsPoint.y - 3, SpsPoint.x + 3, SpsPoint.y + 3 );
-   //PathBuffer.Ellipse(FixedRect(MakeRect(SpsPoint.x - 3, SpsPoint.y - 3, SpsPoint.x + 3, SpsPoint.y + 3)),true);
   end;
  procedure DrawWaypoint(wp: TWaypoint);
  var
@@ -854,8 +814,10 @@ procedure TSps_Editor.DrawPath();
 var
   i: integer;
 begin
+  StatusBar1.Panels[2].Text:='';
   if not assigned(sps_path) then exit;
   if not (sps_path.Count > 0) then exit;
+  StatusBar1.Panels[2].Text:='Current path:'+#32+sps_path.Items[CurrIndex].Name;
   DrawSrcToDst(bground,pathbuffer);
   DrawCircle(CirclePoint.X,CirclePoint.Y,73,PAthBuffer.Canvas, sps_path.Items[CurrIndex].Color);
   for i:=0 to sps_path.Count - 1 do

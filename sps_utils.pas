@@ -66,7 +66,7 @@ var
   i: integer;
   s: string;
 begin
- s:=#32;
+ s:='';
  for i := 0 to cnt -1 do
   begin
      s:=s+#32;
