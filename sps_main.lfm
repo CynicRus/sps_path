@@ -263,6 +263,10 @@ object Sps_Editor: TSps_Editor
         Caption = 'Only variables'
         OnClick = MenuItem12Click
       end
+      object MenuItem14: TMenuItem
+        Caption = 'ProjectRS06 mode'
+        OnClick = MenuItem14Click
+      end
     end
     object MenuItem7: TMenuItem
       Caption = 'Waypoints'

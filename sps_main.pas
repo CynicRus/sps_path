@@ -22,6 +22,7 @@ type
     MenuItem11: TMenuItem;
     MenuItem12: TMenuItem;
     MenuItem13: TMenuItem;
+    MenuItem14: TMenuItem;
     odlg: TOpenDialog;
     JumpMenu: TPopupMenu;
     MapRender: TPaintBox;
@@ -70,6 +71,7 @@ type
     procedure MenuItem10Click(Sender: TObject);
     procedure MenuItem11Click(Sender: TObject);
     procedure MenuItem12Click(Sender: TObject);
+    procedure MenuItem14Click(Sender: TObject);
     procedure MenuItem2Click(Sender: TObject);
     procedure MenuItem3Click(Sender: TObject);
     procedure MenuItem5Click(Sender: TObject);
@@ -246,6 +248,7 @@ begin
   MenuItem6.Checked:=false;
   MenuItem12.Checked:=false;
   MenuItem5.Checked:=true;
+  MenuItem14.Checked:=false;
 end;
 
 procedure TSps_Editor.MenuItem6Click(Sender: TObject);
@@ -254,6 +257,7 @@ begin
   MenuItem6.Checked:=true;
   MenuItem12.Checked:=false;
   MenuItem5.Checked:=false;
+  MenuItem14.Checked:=false;
 end;
 
 procedure TSps_Editor.pBoxChange(Sender: TObject);
@@ -500,7 +504,7 @@ begin
   pBox.ItemIndex:=0;
   CurrIndex:=0;
   CurrSubIndex:=0;
-  self.Caption:='Path maker for SPS v. 2.5.7 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
+  self.Caption:='Path maker for SPS v. 2.5.8 by Cynic' + {$IFDEF WINDOWS}'[WIN]'{$ELSE}'[LIN]'{$ENDIF};
 end;
 
 procedure TSps_Editor.FormDestroy(Sender: TObject);
@@ -619,6 +623,16 @@ begin
   MenuItem6.Checked:=false;
   MenuItem12.Checked:=true;
   MenuItem5.Checked:=false;
+  MenuItem14.Checked:=false;
+end;
+
+procedure TSps_Editor.MenuItem14Click(Sender: TObject);
+begin
+  CodeType:=3;
+  MenuItem6.Checked:=false;
+  MenuItem12.Checked:=false;
+  MenuItem5.Checked:=false;
+  MenuItem14.Checked:=true;
 end;
 
 

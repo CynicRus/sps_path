@@ -136,7 +136,7 @@ begin
     begin
       st.Clear;
       st.Add('program Walker;');
-      st.Add('//The code was generated with the path generator for SPS version 2.5.7 by Cynic');
+      st.Add('//The code was generated with the path generator for SPS version 2.5.8 by Cynic');
       st.Add('{$DEFINE SMART}');
       st.Add('{$i SRL/srl.simba}');
       st.Add('{$i sps/sps.simba}');
@@ -243,7 +243,7 @@ begin
     begin
       st.Clear;
       st.Add('program Walker;');
-      st.Add('//The code was generated with the path generator for SPS version 2.5.7 by Cynic');
+      st.Add('//The code was generated with the path generator for SPS version 2.5.8 by Cynic');
       st.Add('//In that code uses the BlindWalk snippet by litoris.');
       st.Add('{$DEFINE SMART}');
       st.Add('{$i SRL/srl.simba}');
@@ -311,6 +311,95 @@ begin
            st.Add(GenSpaces(2)+'SPS_Setup(RUNESCAPE_OTHER,['+#39+GetFileName(MapFile)+#39+']);');
          st.Add('end;');
           st.Add('');
+         st.Add('begin');
+         st.Add(GenSpaces(2)+'SetupWalker;');
+         for i:=0 to count -1 do
+          begin
+            wp:=items[i];
+            st.Add(GenSpaces(2)+Wp.Name+';');
+          end;
+         st.Add('end.');
+    end;
+  3:
+    begin
+      st.Clear;
+      st.Add('program Walker;');
+      st.Add('//The code was generated with the path generator for SPS version 2.5.8 by Cynic');
+      st.Add('//With Project RS 06 compabilty mode.');
+      st.Add('{$i SRL/srl.simba}');
+      st.Add('{$I P06Include/P06Include.Simba}');
+      st.Add('{$i sps/p06sps.simba}');
+      st.Add('');
+      st.Add('var');
+      st.Add('//place your variables here');
+      st.Add(GenSpaces(1)+'Status: string;');
+      s:=GenSpaces(2);
+      st.Add('');
+      st.Add('procedure P06DeclarePlayers;');
+      st.Add('begin');
+      st.Add(s+'P06_PlayerName:='+#39+#39+';');
+      st.Add(s+'P06_PlayerPass:='+#39+#39+';');
+      {st.Add(s+'HowManyPlayers:=1;');
+      st.Add(s+'NumberOfPlayers(HowManyPlayers);');
+      st.Add(s+'CurrentPlayer:=0;');
+      st.Add(s+'with Players[0] do');
+      st.Add(s+'begin');
+      st.Add(GenSpaces(4)+'Name:='+#39+#39+';');
+      st.Add(GenSpaces(4)+'Pass:='+#39+#39+';');
+      st.Add(GenSpaces(4)+'BoxRewards:=['+#39+#39+'];');
+      st.Add(GenSpaces(4)+'LampSkill:=SKILL_PRAYER;');
+      st.Add(GenSpaces(4)+'Pin:='+#39+#39+';');
+      st.Add(GenSpaces(4)+'Active:=true;');
+      st.Add(s+'end;'); }
+      st.Add('end;');
+       for i:=0 to count -1 do
+          begin
+            wp:=items[i];
+            st.Add('');
+            st.Add('procedure'+genspaces(1)+wp.Name+';');
+            st.Add('var');
+            st.Add(genspaces(2)+Wp.Name+'Var: TPointArray;');
+            st.Add('begin');
+            for j:=0 to wp.PointList.Count-1 do
+               begin
+                  pt:=wp.PointList[j];
+                 if j = 0 then
+                   s:=GenSpaces(2)+Wp.Name+'Var:=[Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
+                 if (j > 0) and (j< wp.PointList.Count) then
+                   s:=s+',Point('+IntToStr(pt.x)+','+IntToStr(pt.y)+')';
+                 if j = wp.PointList.Count-1 then
+                   s:=s+'];';
+               end;
+            st.Add(s);
+           st.Add(GenSpaces(2)+'if SPS_WalkPath('+Wp.Name+'Var'+') then');
+           st.Add(GenSpaces(4)+'Status := '+#39+Wp.Name+#39+'');
+           st.Add(GenSpaces(2)+'else begin');
+           st.Add(GenSpaces(4)+'Status :='+#39+'Failed '+wp.Name+#39';');
+           st.Add(GenSpaces(4)+'WriteLn(status + '+#39+'#Time Running:'+#39+' +TimeRunning);');
+           st.Add(GenSpaces(4)+'Logout;');
+           st.Add(GenSpaces(4)+'TerminateScript;');
+           st.Add(GenSpaces(2)+'end;');
+           st.Add(GenSpaces(2)+'WriteLn(status + '+#39+'#Time Running:'+#39+' +TimeRunning);');
+           st.Add('end;');
+          end;
+         st.Add('');
+         st.Add('procedure SetupWalker;');
+         st.Add('begin');
+         st.Add(GenSpaces(2)+'P06_DeclarePlayer;');
+         st.Add(GenSpaces(2)+'SetupP06Include;');
+         st.Add(GenSpaces(2)+'ActivateClient;');
+         st.Add(GenSpaces(2)+'Wait('+IntToStr(RandomRange(2000,2100))+'+ '+'Random('+IntToStr(RandomRange(2200,2400))+'));');
+         st.Add(GenSpaces(2)+'If (Not P06_LoggedIn) Then');
+         st.Add(GenSpaces(3)+'P06LoginPlayer;');
+         st.Add(GenSpaces(2)+'Wait('+IntToStr(RandomRange(500,1000))+'+ '+'Random('+IntToStr(RandomRange(100,400))+'));');
+         st.Add(GenSpaces(2)+'P06_MakeCameraAngleHigh;');
+         st.Add(GenSpaces(2)+'P06_MakeCompassNorth;');
+         if (MapType>0) then
+           st.Add(GenSpaces(2)+GetAreaCodes(Self))
+         else
+           st.Add(GenSpaces(2)+'SPS_Setup(RUNESCAPE_OTHER,['+#39+GetFileName(MapFile)+#39+']);');
+         st.Add('end;');
+         st.Add('');
          st.Add('begin');
          st.Add(GenSpaces(2)+'SetupWalker;');
          for i:=0 to count -1 do
